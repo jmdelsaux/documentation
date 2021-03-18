@@ -1,0 +1,58 @@
+@startuml
+
+database "Github Dev" as upstream
+database "Github Fork" as origin
+database "Local Master" as master
+database "Local Develop" as develop
+database "Local Feature" as feature
+
+upstream -> origin: fork
+
+origin -> master: git clone git@<github_repo>:<user>/<project>.git
+master -> develop: git checkout develop
+
+loop forever
+
+    develop -> feature: git new-feature
+
+    loop until pull request accepted
+        feature -> feature: <do some stuff>
+        feature -> feature: git admit
+        note right
+            <Jira ticket id> : <summary>
+            <mandatory empty line>
+            - does this
+            - does that
+        end note
+
+        feature -> develop: git checkout develop
+        develop -> upstream: git pull upstream develop
+        develop <-- upstream
+        develop -> origin: git push origin develop
+        develop <-- origin
+
+        develop -> feature: git checkout feature/<feature>
+        feature -> develop: git merge develop
+        feature <-- develop
+
+        alt in case of conflicts
+            feature -> feature: "resolve conflicts"
+            feature -> feature: git admit
+        end
+
+        feature -> feature: mvn clean install
+        feature -> origin: git push origin feature/<feature>
+        origin -> upstream: "create pull request from <user>/feature/<feature>"
+
+        upstream --> feature
+    end
+
+    feature -> develop: git checkout develop
+    develop -> upstream: git pull upstream develop
+    develop <-- upstream
+    develop -> origin: git push origin develop
+    develop <-- origin
+    develop -> develop: git br -d feature/<feature>
+    develop -> develop: git push origin :feature/<feature>
+end
+@enduml
