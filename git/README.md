@@ -30,8 +30,8 @@ vim ~/.config/git/config
 
 ```
 [user]
-    name        = John Smith Gendebien
-    email       = john.smith@xxx.com
+    name        = John Smith
+    email       = john.smith@<yourdomain>.com
 [alias]
     br          = branch
     sb          = status -sb
@@ -78,7 +78,7 @@ First of all:
 ```bash
 git clone git@<github_repo>:<user>/<project>.git
 cd <project>
-git remote add upstream git@<github_repo>:<project>.git
+git remote add upstream git@<github_repo>:dev/<project>.git
 
 ```
 
@@ -91,8 +91,8 @@ You should have something like
 ```bash
 origin	git@<github_repo>:<your_username>/<project>.git (fetch)
 origin	git@<github_repo>:<your_username>/<project>.git (push)
-upstream	git@<github_repo>:<project>.git (fetch)
-upstream	git@<github_repo>:<project>.git (push)
+upstream	git@<github_repo>:dev/<project>.git (fetch)
+upstream	git@<github_repo>:dev/<project>.git (push)
 
 ```
 
@@ -198,7 +198,7 @@ git merge develop
 git push origin feature/<feature>
 ```
 
-(5) create a pull request in github from {user}/{project}/feature/{feature} to: {project}/develop
+(5) create a pull request in github from {user}/{project}/feature/{feature} to: dev/{project}/develop
 
 #### Schema
 
